@@ -1,5 +1,6 @@
 body{
     background-color: brown;
+    overflow-x: hidden;
 
 }
 #myBody{
@@ -9,4 +10,8 @@ body{
     display: flex;
     flex-direction: row;
     background-color: brown;
+}
+.navbar{
+    background-image: linear-gradient(to right, #dad, #dbd);
+
 }
