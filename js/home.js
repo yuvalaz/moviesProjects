@@ -2,20 +2,24 @@ console.log("home");
 document.getElementsByClassName("nav-link")[0].className = "nav-link active"
 const main = document.getElementById("myMain");
 for (let a = 0; a < 20; a++) {
-    main.innerHTML += `
-    <div class="imgHome">
-    <p class="movieName"></p>
-    </div>
-    `    
-};
-
-
-let dayOrWeek = "day";
-const dayWeek = document.getElementById("dayWeek");
-let counter = 1
-
-const counterBtn = document.getElementById("counterNum")
-counterBtn.addEventListener("click", () =>{
+  main.innerHTML += `
+  <div class="cards">
+  <div class="imgHome"></div>
+  <div class="cardsButtom">
+  <h6 class="nameOfMovie"></h6>
+  <img src="photo/unlike.png" class="likes"/>
+  </div>
+  </div>
+    ` 
+  };
+  
+  
+  let dayOrWeek = "day";
+  const dayWeek = document.getElementById("dayWeek");
+  let counter = 1;
+  const userLike = document.getElementsByClassName("likes");
+  const counterBtn = document.getElementById("counterNum");
+  counterBtn.addEventListener("click", () =>{
   counter++
   console.log(counter);
   counterBtn.innerText = counter;
@@ -26,14 +30,13 @@ counterBtn.addEventListener("click", () =>{
       document.getElementsByClassName("imgHome")[c].innerHTML = `
       <img style="width: 100%; height: 100%" src="https://image.tmdb.org/t/p/w500${response.results[c].poster_path}"/>
       `
-
+      document.getElementsByClassName("nameOfMovie")[c].innerText = `
+      ${response.results[c].title}
+      `
+      userLike[c].src = "photo/unlike.png"
     };
   })
   .catch(err => console.error(err));
-
-
-  
-
 })
 
 const options = {
@@ -58,12 +61,13 @@ dayWeek.addEventListener("click", () => {
         document.getElementsByClassName("imgHome")[b].innerHTML = `
         <img style="width: 100%; height: 100%" src="https://image.tmdb.org/t/p/w500${response.results[b].poster_path}"/>
         `
-  
+        document.getElementsByClassName("nameOfMovie")[b].innerText = `
+        ${response.results[b].title}
+        `
+        userLike[b].src = "photo/unlike.png"
       };
     })
     .catch(err => console.error(err));
-  
-
     return
   }
   else{
@@ -78,16 +82,18 @@ dayWeek.addEventListener("click", () => {
       document.getElementsByClassName("imgHome")[b].innerHTML = `
       <img style="width: 100%; height: 100%" src="https://image.tmdb.org/t/p/w500${response.results[b].poster_path}"/>
       `
+      document.getElementsByClassName("nameOfMovie")[b].innerText = `
+      ${response.results[b].title}
+      `
         document.getElementsByClassName("movieName")[b].innerText = `
         ${response.results[b].title}
         `
+        userLike[b].src = "photo/unlike.png"
+
       
     };
   })
-  .catch(err => console.error(err));
-
-
-    
+  .catch(err => console.error(err)); 
     return
   }
 
@@ -102,10 +108,31 @@ fetch(`https://api.themoviedb.org/3/trending/movie/${dayOrWeek}?language=en-US&p
       document.getElementsByClassName("imgHome")[b].innerHTML += `
       <img style="width: 100%; height: 100%" src="https://image.tmdb.org/t/p/w500${response.results[b].poster_path}"/>
       `
+      document.getElementsByClassName("nameOfMovie")[b].innerText = `
+      ${response.results[b].title}
+      `
+      userLike[b].src = "photo/unlike.png"
 
     };
   })
   .catch(err => console.error(err));
 
-
+  let likedPic = []
+for (let d = 0; d < 20; d++) {
+  document.getElementsByClassName("likes")[d].addEventListener("click", () =>{
+      if(userLike[d].src == "http://127.0.0.1:5500/photo/unlike.png"){
+        userLike[d].src = "photo/like.png";
+        fetch(`https://api.themoviedb.org/3/trending/movie/${dayOrWeek}?language=en-US&page=${counter}`, options)
+        .then(response => response.json())
+        .then(response => {
+      userLike[d].src = "photo/unlike.png"
+      likedPic.push(`https://image.tmdb.org/t/p/w500${response.results[d].poster_path}`);
+      console.log(likedPic);
+  })
+      }
+      else{
+        userLike[d].src = "photo/unlike.png"
+      };    
+  });
+};
 
