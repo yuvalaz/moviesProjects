@@ -1,4 +1,3 @@
-console.log("that work!");
 const newBody = document.getElementById("myBody");
 newBody.innerHTML += `
 <nav class="navbar navbar-expand-lg bg-light">

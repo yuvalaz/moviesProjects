@@ -1,4 +1,3 @@
-console.log("home");
 document.getElementsByClassName("nav-link")[0].className = "nav-link active"
 const main = document.getElementById("myMain");
 for (let a = 0; a < 20; a++) {
@@ -73,9 +72,7 @@ dayWeek.addEventListener("click", () => {
     fetch(`https://api.themoviedb.org/3/trending/movie/week?language=en-US&page=${counter}`, options)
   .then(response => response.json())
   .then(response => {
-for (let b = 0; b < 20; b++) {
-console.log(b);  
-      
+for (let b = 0; b < 20; b++) {      
          document.getElementsByClassName("imgHome")[b].innerHTML = `
          <img style="width: 100%; height: 100%" src="https://image.tmdb.org/t/p/w500${response.results[b].poster_path}"/>
          `
@@ -94,8 +91,6 @@ console.log(b);
 fetch(`https://api.themoviedb.org/3/trending/movie/${dayOrWeek}?language=en-US&page=${counter}`, options)
   .then(response => response.json())
   .then(response => {
-    console.log(response);
-    console.log(response.results[5].backdrop_path)
     for (let b = 0; b < 20; b++) {
       document.getElementsByClassName("imgHome")[b].innerHTML += `
       <img style="width: 100%; height: 100%" src="https://image.tmdb.org/t/p/w500${response.results[b].poster_path}"/>
@@ -110,22 +105,29 @@ fetch(`https://api.themoviedb.org/3/trending/movie/${dayOrWeek}?language=en-US&p
   .catch(err => console.error(err));
 
 
-  let likedPic = [];
-  for (let d = 0; d < 20; d++) {
-    document.getElementsByClassName("likes")[d].addEventListener("click", () =>{
-        if(userLike[d].src == "http://127.0.0.1:5500/photo/unlike.png"){
-          fetch(`https://api.themoviedb.org/3/trending/movie/${dayOrWeek}?language=en-US&page=${counter}`, options)
-          .then(response => response.json())
-          .then(response => {
-            likedPic.push(`https://image.tmdb.org/t/p/w500${response.results[d].poster_path}`);
-            }
-            )
-          userLike[d].src = "photo/like.png";
-        }
-        else{
-          userLike[d].src = "photo/unlike.png"
-        };    
+
+let likedPic = [];
+
+for (let d = 0; d < 20; d++) {
+  document.getElementsByClassName("likes")[d].addEventListener("click", () => {
+    if (userLike[d].src == "http://127.0.0.1:5500/photo/unlike.png") {
+      fetch(`https://api.themoviedb.org/3/trending/movie/${dayOrWeek}?language=en-US&page=${counter}`, options)
+        .then(response => response.json())
+        .then(response => {
+          likedPic.push(`https://image.tmdb.org/t/p/w500${response.results[d].poster_path}`);
+        });
+        userLike[d].src = "photo/like.png";
+        localStorage.setItem("loved", JSON.stringify(likedPic))
+      } else {
+        userLike[d].src = "photo/unlike.png"
+      };
+      localStorage.setItem("loved", JSON.stringify(likedPic))
     });
   };
+   
+
+  // let whatUserLike = JSON.parse(localStorage.getItem("loved"))
+
+
 
 
