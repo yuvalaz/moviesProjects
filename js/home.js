@@ -125,9 +125,21 @@ for (let d = 0; d < 20; d++) {
     });
   };
    
+console.log(window.innerWidth);
+if(window.innerWidth <= 600){
+  for (let g = 0; g < 20; g++) {
+    document.getElementsByClassName("imgHome")[g].addEventListener("dblclick", () => {
+      fetch(`https://api.themoviedb.org/3/trending/movie/${dayOrWeek}?language=en-US&page=${counter}`, options)
+          .then(response => response.json())
+          .then(response => {
+            likedPic.push(`https://image.tmdb.org/t/p/w500${response.results[g].poster_path}`);
+          });
+          userLike[g].src = "photo/like.png";
+          localStorage.setItem("loved", JSON.stringify(likedPic))
+    })    
+  }
 
-  // let whatUserLike = JSON.parse(localStorage.getItem("loved"))
-
+}
 
 
 
