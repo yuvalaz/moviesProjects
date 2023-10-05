@@ -10,10 +10,14 @@ searchDiv.innerHTML += `
 
 for (let a = 0; a < 20; a++) {
     main.innerHTML += `
-    <div class="imgHome">
-    <p class="movieame"></p>
+    <div class="cards">
+    <div class="imgHome"></div>
+    <div class="cardsButtom">
+    <h6 class="nameOfMovie"></h6>
+    <img src="photo/unlike.png" class="likes"/>
     </div>
-    `    
+    </div>
+      `    
 };
 
 const options = {
